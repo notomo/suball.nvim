@@ -2,8 +2,8 @@ local helper = require "test.helper"
 local assert = helper.assert
 local command = helper.command
 
-describe('suball', function ()
-  it('can substitute various cases strings with keeping them cases', function ()
+describe("suball", function()
+  it("can substitute various cases strings with keeping them cases", function()
     helper.set_lines([[
 TEST_CASE
 test_case

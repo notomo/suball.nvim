@@ -35,4 +35,4 @@ end
 
 M.assert = AM
 
-return M
+package.loaded["test.helper"] = M
