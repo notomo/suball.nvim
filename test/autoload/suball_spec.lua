@@ -1,6 +1,4 @@
 local helper = require "test.helper"
-local assert = helper.assert
-local command = helper.command
 
 describe("suball", function()
   it("can substitute various cases strings with keeping them cases", function()
@@ -12,7 +10,7 @@ TestCase
 testCase]])
 
     local cmd = vim.fn["suball#command"]("test_case", "case_test")
-    command("%" .. cmd)
+    vim.cmd("%" .. cmd)
 
     assert.lines([[
 CASE_TEST

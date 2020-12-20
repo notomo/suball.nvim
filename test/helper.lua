@@ -24,15 +24,10 @@ M.cursor = function()
   return {vim.fn.line("."), vim.fn.col(".")}
 end
 
-local assert = require("luassert")
-local AM = {}
+local asserts = require("vusted.assert").asserts
 
-AM.lines = function(expected)
-  local actual = table.concat(vim.fn.getbufline("%", 0, "$"), "\n")
-  local msg = string.format("lines should be %s, but actual: %s", expected, actual)
-  assert.equals(expected, actual, msg)
-end
-
-M.assert = AM
+asserts.create("lines"):register_eq(function()
+  return table.concat(vim.fn.getbufline("%", 0, "$"), "\n")
+end)
 
 package.loaded["test.helper"] = M
