@@ -11,8 +11,8 @@ test-case
 TestCase
 testCase]])
 
-    local cmd = suball.input("test_case", "case_test")
-    vim.cmd("%" .. cmd)
+    local key = ":%" .. suball.map("test_case", "case_test") .. vim.api.nvim_eval("\"\\<CR>\"")
+    vim.api.nvim_feedkeys(key, "nx", true)
 
     assert.lines([[
 CASE_TEST

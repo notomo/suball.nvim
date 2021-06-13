@@ -23,10 +23,6 @@ function Command.new(name, ...)
 end
 
 function Command.map(before, after)
-  return Command.input(before, after) .. vim.api.nvim_eval("\"\\<Left>\\<Left>\\<Left>\\<Left>\"")
-end
-
-function Command.input(before, after)
   vim.validate({before = {before, "string"}, after = {after, "string"}})
 
   local upper = case.to_upper(before)
@@ -37,7 +33,13 @@ function Command.input(before, after)
 
   local is_one_word = snake == kebab
   local pattern = table.concat({upper, snake, camel, pascal, kebab}, "|")
-  return ("s/\\v(%s)/\\=v:lua._suball_helper(v:%s, submatch(0), '%s')/g"):format(pattern, is_one_word, after)
+  local cmd = ("s/\\v(%s)/\\=v:lua._suball_helper(v:%s, submatch(0), '%s')/g"):format(pattern, is_one_word, after)
+  return cmd .. vim.api.nvim_eval("\"\\<Left>\\<Left>\\<Left>\\<Left>\"")
+end
+
+-- NOTE: global for using from v:lua
+function _G._suball_helper(is_one_word, match, word)
+  return Command.new("helper", is_one_word, match, word)
 end
 
 function Command.helper(is_one_word, match, word)
@@ -47,7 +49,7 @@ function Command.helper(is_one_word, match, word)
     word = {word, "string"},
   })
 
-  if is_one_word and (case.is_snake(word) and case.is_camel(word) and case.is_kebab(word)) then
+  if is_one_word and (case.is_snake(word) or case.is_camel(word) or case.is_kebab(word)) then
     return word
   end
 
