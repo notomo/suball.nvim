@@ -11,7 +11,7 @@ test-case
 TestCase
 testCase]])
 
-    local key = ":%" .. suball.map("test_case", "case_test") .. vim.api.nvim_eval("\"\\<CR>\"")
+    local key = ":%" .. suball.map("test_case", "") .. vim.api.nvim_eval("\"case_test\\<CR>\"")
     vim.api.nvim_feedkeys(key, "nx", true)
 
     assert.lines([[

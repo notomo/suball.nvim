@@ -33,8 +33,9 @@ function Command.map(before, after)
 
   local is_one_word = snake == kebab
   local pattern = table.concat({upper, snake, camel, pascal, kebab}, "|")
-  local cmd = ("s/\\v(%s)/\\=v:lua._suball_helper(v:%s, submatch(0), '%s')/g"):format(pattern, is_one_word, after)
-  return cmd .. vim.api.nvim_eval("\"\\<Left>\\<Left>\\<Left>\\<Left>\"")
+  local suffix = "')/g"
+  local cmd = ("s/\\v(%s)/\\=v:lua._suball_helper(v:%s, submatch(0), '%s%s"):format(pattern, is_one_word, after, suffix)
+  return cmd .. vim.api.nvim_eval("\"" .. ("\\<Left>"):rep(#suffix) .. "\"")
 end
 
 -- NOTE: global for using from v:lua
