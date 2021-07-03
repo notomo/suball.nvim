@@ -22,4 +22,19 @@ CaseTest
 caseTest]])
   end)
 
+  it("can substitute various cases strings even if target and input are one word", function()
+    helper.set_lines([[
+TEST
+test
+Test]])
+
+    local key = ":%" .. suball.map("test", "") .. vim.api.nvim_eval("\"case\\<CR>\"")
+    vim.api.nvim_feedkeys(key, "nx", true)
+
+    assert.lines([[
+CASE
+case
+Case]])
+  end)
+
 end)

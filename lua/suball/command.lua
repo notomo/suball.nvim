@@ -31,28 +31,19 @@ function Command.map(before, after)
   local pascal = case.to_pascal(before)
   local kebab = case.to_kebab(before)
 
-  local is_one_word = snake == kebab
   local pattern = table.concat({upper, snake, camel, pascal, kebab}, "|")
   local suffix = "')/g"
-  local cmd = ("s/\\v(%s)/\\=v:lua._suball_helper(v:%s, submatch(0), '%s%s"):format(pattern, is_one_word, after, suffix)
+  local cmd = ("s/\\v(%s)/\\=v:lua._suball_helper(submatch(0), '%s%s"):format(pattern, after, suffix)
   return cmd .. vim.api.nvim_eval("\"" .. ("\\<Left>"):rep(#suffix) .. "\"")
 end
 
 -- NOTE: global for using from v:lua
-function _G._suball_helper(is_one_word, match, word)
-  return Command.new("helper", is_one_word, match, word)
+function _G._suball_helper(match, word)
+  return Command.new("helper", match, word)
 end
 
-function Command.helper(is_one_word, match, word)
-  vim.validate({
-    is_one_word = {is_one_word, "boolean"},
-    match = {match, "string"},
-    word = {word, "string"},
-  })
-
-  if is_one_word and (case.is_snake(word) or case.is_camel(word) or case.is_kebab(word)) then
-    return word
-  end
+function Command.helper(match, word)
+  vim.validate({match = {match, "string"}, word = {word, "string"}})
 
   if case.is_upper(match) then
     return case.to_upper(word)
