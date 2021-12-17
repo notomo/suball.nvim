@@ -1,0 +1,33 @@
+*suball.nvim.txt*
+
+==============================================================================
+Lua module: suball                                        *suball.nvim-suball*
+
+map({before}, {after})                                          *suball.map()*
+  Returns a substitute command for mapping.
+
+  Parameters: ~
+    {before} (string) a word before substitution
+    {after} (string) a word after substitution
+
+  Return: ~
+    (string) a substitute command
+
+==============================================================================
+EXAMPLES                                                *suball.nvim-EXAMPLES*
+
+>
+  nnoremap <expr> S ':%' .. luaeval('require("suball").map(vim.fn.expand("<cword>"), "")')
+
+  " Type S on `test_case` and input `case_test<Enter>`.
+  " Then, the following all patterns are substituted.
+
+  " TEST_CASE -> CASE_TEST
+  " test_case -> case_test
+  " test-case -> case-test
+  " TestCase  -> CaseTest
+  " testCase  -> caseTest
+<
+
+==============================================================================
+vim:tw=78:ts=8:ft=help
