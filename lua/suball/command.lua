@@ -8,7 +8,7 @@ Command.__index = Command
 M.Command = Command
 
 function Command.new(name, ...)
-  local args = {...}
+  local args = { ... }
   local f = function()
     return Command[name](unpack(args))
   end
@@ -23,7 +23,7 @@ function Command.new(name, ...)
 end
 
 function Command.map(before, after)
-  vim.validate({before = {before, "string"}, after = {after, "string"}})
+  vim.validate({ before = { before, "string" }, after = { after, "string" } })
 
   local upper = case.to_upper(before)
   local snake = case.to_snake(before)
@@ -31,14 +31,14 @@ function Command.map(before, after)
   local pascal = case.to_pascal(before)
   local kebab = case.to_kebab(before)
 
-  local pattern = table.concat({upper, snake, camel, pascal, kebab}, "|")
+  local pattern = table.concat({ upper, snake, camel, pascal, kebab }, "|")
   local suffix = "')/g"
   local cmd = ("s/\\v(%s)/\\=v:lua.require('suball').helper('%s%s"):format(pattern, after, suffix)
-  return cmd .. vim.api.nvim_eval("\"" .. ("\\<Left>"):rep(#suffix) .. "\"")
+  return cmd .. vim.api.nvim_eval('"' .. ("\\<Left>"):rep(#suffix) .. '"')
 end
 
 function Command.helper(word)
-  vim.validate({word = {word, "string"}})
+  vim.validate({ word = { word, "string" } })
   local match = vim.fn.submatch(0)
   if case.is_upper(match) then
     return case.to_upper(word)
