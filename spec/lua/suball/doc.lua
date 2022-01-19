@@ -1,9 +1,12 @@
-local example_path = "./spec/lua/suball/example.vim"
+local util = require("genvdoc.util")
+local plugin_name = vim.env.PLUGIN_NAME
+
+local example_path = ("./spec/lua/%s/example.lua"):format(plugin_name)
 
 vim.o.runtimepath = vim.fn.getcwd() .. "," .. vim.o.runtimepath
-vim.cmd([[source ]] .. example_path)
+dofile(example_path)
 
-require("genvdoc").generate("suball.nvim", {
+require("genvdoc").generate(plugin_name .. ".nvim", {
   chapters = {
     {
       name = function(group)
@@ -19,7 +22,7 @@ require("genvdoc").generate("suball.nvim", {
     {
       name = "EXAMPLES",
       body = function()
-        return require("genvdoc.util").help_code_block_from_file(example_path)
+        return util.help_code_block_from_file(example_path)
       end,
     },
   },
@@ -37,7 +40,7 @@ This is a plugin that substitutes various cases strings with keeping them cases.
 
 ## Example
 
-```vim
+```lua
 %s```]]):format(exmaple)
 
   local readme = io.open("README.md", "w")

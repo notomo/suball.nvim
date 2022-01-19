@@ -1,10 +1,3 @@
-# suball.nvim
-
-This is a plugin that substitutes various cases strings with keeping them cases.
-
-## Example
-
-```lua
 vim.keymap.set("n", "S", function()
   return ":%" .. require("suball").map(vim.fn.expand("<cword>"), "")
 end, { expr = true })
@@ -17,4 +10,3 @@ end, { expr = true })
 -- test-case -> case-test
 -- TestCase  -> CaseTest
 -- testCase  -> caseTest
-```

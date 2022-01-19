@@ -34,7 +34,7 @@ function Command.map(before, after)
   local pattern = table.concat({ upper, snake, camel, pascal, kebab }, "|")
   local suffix = "')/g"
   local cmd = ("s/\\v(%s)/\\=v:lua.require('suball').helper('%s%s"):format(pattern, after, suffix)
-  return cmd .. vim.api.nvim_eval('"' .. ("\\<Left>"):rep(#suffix) .. '"')
+  return cmd .. ("<Left>"):rep(#suffix)
 end
 
 function Command.helper(word)
