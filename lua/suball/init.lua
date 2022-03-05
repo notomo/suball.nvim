@@ -1,5 +1,3 @@
-local Command = require("suball.command").Command
-
 local M = {}
 
 --- Returns a substitute command for expr mapping.
@@ -7,11 +5,11 @@ local M = {}
 --- @param after string: a word after substitution
 --- @return string: a substitute command expr
 function M.map(before, after)
-  return Command.new("map", before, after)
+  return require("suball.command").map(before, after)
 end
 
 function M.helper(...)
-  return Command.new("helper", ...)
+  return require("suball.command").helper(...)
 end
 
 return M
