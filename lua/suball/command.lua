@@ -1,4 +1,4 @@
-local ReturnValue = require("suball.lib.error_handler").for_return_value()
+local ReturnValue = require("suball.vendor.misclib.error_handler").for_return_value()
 local Case = require("suball.case")
 
 function ReturnValue.map(before, after)

@@ -1,5 +1,6 @@
-local plugin_name = vim.split((...):gsub("%.", "/"), "/", true)[1]
-local messagelib = require(plugin_name .. ".lib.message")
+local dir_parts = vim.split((...):gsub("/", "."), ".", true)
+local dir_module = table.concat({ unpack(dir_parts, 1, #dir_parts - 1) }, ".")
+local messagelib = require(dir_module .. ".message")
 
 local M = {}
 M.__index = M
@@ -11,11 +12,8 @@ end
 
 function M.for_return_value()
   return M.new(function(f)
-    local ok, result, err = xpcall(f, debug.traceback)
-    if not ok then
-      messagelib.error(result)
-      return nil
-    elseif err then
+    local result, err = f()
+    if err then
       messagelib.warn(err)
       return nil
     end
@@ -23,13 +21,20 @@ function M.for_return_value()
   end)
 end
 
+function M.for_return_value_and_error()
+  return M.new(function(f)
+    local result, err = f()
+    if err then
+      return nil, messagelib.wrap(err)
+    end
+    return result, nil
+  end)
+end
+
 function M.for_return_packed_value()
   return M.new(function(f)
-    local ok, result, err = xpcall(f, debug.traceback)
-    if not ok then
-      messagelib.error(result)
-      return nil
-    elseif err then
+    local result, err = f()
+    if err then
       messagelib.warn(err)
       return nil, err
     end
@@ -39,12 +44,20 @@ end
 
 function M.for_show_error()
   return M.new(function(f)
-    local ok, err = xpcall(f, debug.traceback)
-    if not ok then
-      messagelib.error(err)
-      return nil
-    elseif err then
+    local err = f()
+    if err then
       messagelib.warn(err)
+      return nil
+    end
+    return nil
+  end)
+end
+
+function M.for_show_as_user_error()
+  return M.new(function(f)
+    local err = f()
+    if err then
+      messagelib.user_error(err)
       return nil
     end
     return nil
