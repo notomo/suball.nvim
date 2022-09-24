@@ -1,4 +1,4 @@
-local helper = require("suball.lib.testlib.helper")
+local helper = require("suball.test.helper")
 local suball = helper.require("suball")
 
 describe("suball", function()
