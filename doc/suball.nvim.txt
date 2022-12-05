@@ -16,7 +16,7 @@ map({before}, {after})                                          *suball.map()*
 ==============================================================================
 EXAMPLES                                                *suball.nvim-EXAMPLES*
 
->
+>lua
   vim.keymap.set("n", "S", function()
     return ":%" .. require("suball").map(vim.fn.expand("<cword>"), "")
   end, { expr = true })
