@@ -1,7 +1,8 @@
-local ReturnValue = require("suball.vendor.misclib.error_handler").for_return_value()
 local Case = require("suball.case")
 
-function ReturnValue.map(before, after)
+local M = {}
+
+function M.map(before, after)
   vim.validate({ before = { before, "string" }, after = { after, "string" } })
 
   local upper = Case.to_upper(before)
@@ -16,7 +17,7 @@ function ReturnValue.map(before, after)
   return cmd .. ("<Left>"):rep(#suffix)
 end
 
-function ReturnValue.helper(word)
+function M.helper(word)
   vim.validate({ word = { word, "string" } })
   local match = vim.fn.submatch(0)
   if Case.is_upper(match) then
@@ -33,4 +34,4 @@ function ReturnValue.helper(word)
   return word
 end
 
-return ReturnValue:methods()
+return M
