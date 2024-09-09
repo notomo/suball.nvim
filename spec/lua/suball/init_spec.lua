@@ -1,5 +1,6 @@
 local helper = require("suball.test.helper")
 local suball = helper.require("suball")
+local assert = helper.typed_assert(assert)
 
 describe("suball", function()
   it("can substitute various cases strings with keeping them cases", function()
