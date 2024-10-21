@@ -3,8 +3,6 @@ local Case = require("suball.case")
 local M = {}
 
 function M.map(before, after)
-  vim.validate({ before = { before, "string" }, after = { after, "string" } })
-
   local upper = Case.to_upper(before)
   local snake = Case.to_snake(before)
   local camel = Case.to_camel(before)
@@ -17,8 +15,8 @@ function M.map(before, after)
   return cmd .. ("<Left>"):rep(#suffix)
 end
 
+--- @param word string
 function M.helper(word)
-  vim.validate({ word = { word, "string" } })
   local match = vim.fn.submatch(0)
   if Case.is_upper(match) then
     return Case.to_upper(word)
