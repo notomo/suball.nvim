@@ -14,7 +14,7 @@ testCase]])
     local key = "[fire]"
     vim.keymap.set("n", key, function()
       return ":%" .. suball.map("test_case", "") .. "case_test<CR>"
-    end, { buffer = true, expr = true, silent = true })
+    end, { buf = 0, expr = true, silent = true })
     vim.api.nvim_feedkeys(key, "rx", true)
 
     assert.lines([[
@@ -34,7 +34,7 @@ Test]])
     local key = "[fire]"
     vim.keymap.set("n", key, function()
       return ":%" .. suball.map("test", "") .. "case<CR>"
-    end, { buffer = true, expr = true, silent = true })
+    end, { buf = 0, expr = true, silent = true })
     vim.api.nvim_feedkeys(key, "rx", true)
 
     assert.lines([[
