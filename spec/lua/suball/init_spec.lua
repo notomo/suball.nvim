@@ -1,6 +1,8 @@
+local ntf = require("ntf")
+local describe, it = ntf.describe, ntf.it
 local helper = require("suball.test.helper")
-local suball = helper.require("suball")
-local assert = helper.typed_assert(assert)
+local suball = require("suball")
+local assert = helper.typed_assert(ntf.assert)
 
 describe("suball", function()
   it("can substitute various cases strings with keeping them cases", function()
