@@ -11,7 +11,7 @@ function helper.set_lines(lines)
   vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(lines, "\n"))
 end
 
-vim.opt.packpath:prepend(vim.fs.joinpath(helper.root, "spec/.shared/packages"))
+vim.opt.packpath:prepend(vim.env.TESTPACK_PACKPATH or vim.fs.joinpath(helper.root, "spec/.shared/packages"))
 require("assertlib").register(require("ntf.assert").register)
 
 local assert = require("ntf.assert")
